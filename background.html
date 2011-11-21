@@ -1,0 +1,10 @@
+<html>
+<head>
+<script>
+  function updateIcon() {
+    chrome.tabs.executeScript(null,{file: "export_csv.js", allFrames: true});
+  }
+  chrome.browserAction.onClicked.addListener(updateIcon);
+</script>
+</head>
+</html>

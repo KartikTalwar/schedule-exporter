@@ -1,0 +1,19 @@
+{
+  "name": "WATScehdule Exporter",
+  "version": "1.0",
+  "background_page": "background.html",
+
+  "permissions": [
+    "tabs", "https://*/*"
+  ],
+"content_scripts":[
+{
+	"matches":["https://quest.pecs.uwaterloo.ca/*"],
+	"js":["load.js"],
+	"all_frames":true
+}
+],
+  "browser_action": {
+      "name": "Click to export csv"
+  }
+}
