@@ -1,12 +1,39 @@
 <?php
 
-error_reporting(0);	// treating unforseen consequences
 
-$get = $_GET['data'];	// get the encoded array
-$decode = base64_decode($get);	// decode the array
+$get = $_POST['data'];
+$serialize = base64_decode($get);
+
+$file = "test.txt";
+$fh = @fopen($file, 'w');
 
 
-print_r(json_encode($decode));	// test output
+$data = explode(',', $serialize);
+$stringData = "";
+
+for(i=0; i<count($data); i++)
+{
+	$stringData = $data[i];
+	fwrite($fh, $stringData);
+}
+
+fclose($fh);
+
+if (file_exists($file)) 
+{
+	header('Content-Description: File Transfer');
+	header('Content-Type: application/octet-stream');
+	header('Content-Disposition: attachment; filename='.basename($file));
+	header('Content-Transfer-Encoding: binary');
+	header('Expires: 0');
+	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+	header('Pragma: public');
+	header('Content-Length: ' . filesize($file));
+	ob_clean();
+	flush();
+	readfile($file);
+	exit;
+}
 
 
 ?>
