@@ -1,6 +1,6 @@
 #Schedule Exporter
 
-##Schedule exporter is a chrome plugin to export schedule from ibm websphere based schedular.
+###Schedule exporter is a chrome plugin to export schedule from ibm websphere based schedular.
 
 ##Steps to export:
 
@@ -9,6 +9,6 @@
 * Copy past replaced text and save in a new file named : schedule.ics
 * Import this file in any calendar app.
 
-###Future considerations:
+##Future considerations:
 * Create file: Require backend server and some donations :)
 * Use API to directly import into applications.
