@@ -12,9 +12,9 @@
 
 ## Bookmarklet
 
-    javascript:(function(){var%20script=document.createElement('script');script.src='https://raw.github.com/yagnik/schedule-exporter/master/extension/export_csv.js?'+Math.floor((+new Date)/(864e5));document.body.appendChild(script);makeSchedule();})()
-
-[Bookmarklet](javascript:(function(){var%20script=document.createElement('script');script.src='https://raw.github.com/yagnik/schedule-exporter/master/extension/export_csv.js?'+Math.floor((+new Date)/(864e5));document.body.appendChild(script);makeSchedule();})())
+```js
+javascript:(function(){var%20script=document.createElement('script');script.src='https://raw.github.com/KartikTalwar/schedule-exporter/master/extension/export_csv.js?'+Math.floor((+new Date)/(864e5));document.body.appendChild(script);makeSchedule();})()
+```
 
 ## Future considerations:
 * Create file: Require backend server and some donations :)
