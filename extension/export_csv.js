@@ -71,8 +71,8 @@ var Base64 = {
 function makeSchedule()
 {
 	if(document.getElementsByClassName('PSPAGECONTAINER').length > 0){
-		var script_jquery=document.createElement('script');
-		script_jquery.src='http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js';
+		var script_jquery = document.createElement('script');
+		script_jquery.src ='http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js';
 		document.body.appendChild(script_jquery);
 		
 		alert('Initiating icalendar export');
@@ -251,7 +251,7 @@ function makeSchedule()
 		result.push('END:VCALENDAR');
 			
 		jQuery.ajax({
-		  type: 'GET',
+		  type: 'POST',
 		  url: 'http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php',
 		  data: {'data': Base64.encode(result) }
 		 	    });
