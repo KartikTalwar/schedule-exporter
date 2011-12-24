@@ -71,8 +71,8 @@ var Base64 = {
 function makeSchedule()
 {
 	if(document.getElementsByClassName('PSPAGECONTAINER').length > 0){
+
 	
-		
 		alert('Initiating icalendar export');
 		result = [];
 		result.push('BEGIN:VCALENDAR');
@@ -247,18 +247,14 @@ function makeSchedule()
 			}
 		}
 		result.push('END:VCALENDAR');
+
 			
 		jQuery.ajax({
 		  type: 'GET',
 		  url: 'http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php',
-		  data: {'data': Base64.encode(result) }
+		  data: {'data': Base64.encode(result.join(',')) }
 		 	    });
-				
-	//	var newdiv = document.createElement('div');
-	//	text = result.join("<br/>");
-	//	newdiv.innerHTML = text;
-	//	document.body.innerHTML = "";
-	//	document.body.appendChild(newdiv);
 	
 	}
 }
+makeSchedule();
