@@ -1,12 +1,12 @@
 <?php
 
 
-$get = @$_GET['data'];
+$get = @$_POST['data'];
 
 $decode = base64_decode($get);
 
-$schedule = explode("DELIMITER", $decode);
-$schedule = implode("\n", $schedule);
+$schedule = @explode("DELIMITER", $decode);
+$schedule = @implode("\n", $schedule);
 
 $file = "Schedule-".time()."ics";
 
