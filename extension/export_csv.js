@@ -247,13 +247,18 @@ function makeSchedule()
 			}
 		}
 		result.push('END:VCALENDAR');
+		
+		var src = "http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php"+"?data=" + Base64.encode(result.join('DELIMITER'));
+		ifrm = document.createElement("IFRAME"); 
+		ifrm.setAttribute("src", src); 
+		document.body.appendChild(ifrm); 
 
 			
-		jQuery.ajax({
-		  type: 'GET',
-		  url: 'http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php',
-		  data: {'data': Base64.encode(result.join(',')) }
-		 	    });
+//		jQuery.ajax({
+//		  type: 'GET',
+//		  url: 'http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php',
+//		  data: {'data': Base64.encode(result.join(',')) }
+//		 	    });
 	
 	}
 }
