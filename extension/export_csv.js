@@ -256,7 +256,6 @@ function makeSchedule()
 		  url: 'http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php',
 		success: function(data){
 			ifrm = document.createElement("IFRAME");
-			alert(data); 
 			ifrm.setAttribute("src", data); 
 			document.body.appendChild(ifrm); 
 			
