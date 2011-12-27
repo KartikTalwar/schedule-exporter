@@ -1,9 +1,6 @@
 var Base64 = {
- 
-	// private property
 	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
- 
-	// public method for encoding
+
 	encode : function (input) {
 		var output = "";
 		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -22,9 +19,12 @@ var Base64 = {
 			enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
 			enc4 = chr3 & 63;
  
-			if (isNaN(chr2)) {
+			if (isNaN(chr2)) 
+			{
 				enc3 = enc4 = 64;
-			} else if (isNaN(chr3)) {
+			} 
+			else if (isNaN(chr3)) 
+			{
 				enc4 = 64;
 			}
  
@@ -37,24 +37,26 @@ var Base64 = {
 		return output;
 	},
  
- 
-	// private method for UTF-8 encoding
 	_utf8_encode : function (string) {
 		string = string.replace(/\r\n/g,"\n");
 		var utftext = "";
  
-		for (var n = 0; n < string.length; n++) {
+		for (var n = 0; n < string.length; n++) 
+		{
  
 			var c = string.charCodeAt(n);
  
-			if (c < 128) {
+			if (c < 128) 
+			{
 				utftext += String.fromCharCode(c);
 			}
-			else if((c > 127) && (c < 2048)) {
+			else if((c > 127) && (c < 2048)) 
+			{
 				utftext += String.fromCharCode((c >> 6) | 192);
 				utftext += String.fromCharCode((c & 63) | 128);
 			}
-			else {
+			else 
+			{
 				utftext += String.fromCharCode((c >> 12) | 224);
 				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
 				utftext += String.fromCharCode((c & 63) | 128);
@@ -70,11 +72,8 @@ var Base64 = {
 
 function makeSchedule()
 {
-	if(document.getElementsByClassName('PSPAGECONTAINER').length > 0){
-		var script_jquery = document.createElement('script');
-		script_jquery.src ='http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js';
-		document.body.appendChild(script_jquery);
-		
+	if(document.getElementsByClassName('PSPAGECONTAINER').length > 0)
+	{
 		alert('Initiating icalendar export');
 		result = [];
 		result.push('BEGIN:VCALENDAR');
@@ -82,13 +81,14 @@ function makeSchedule()
 		result.push('PRODID:-//hacksw/handcal//NONSGML v1.0//EN');
 		
 		classes = document.getElementsByClassName('PSGROUPBOXWBO');
-		
 		number_of_classes = classes.length;
-		for(j = 0;j<number_of_classes;j++)
+		
+		for(j=0; j<number_of_classes; j++)
 		{
 			current_class = classes[j];
 			title_text = current_class.rows[0].cells[0].innerText.split(' - ');
 			class_number = title_text[0];
+			
 			if(title_text[1])
 				{
 					class_name = title_text[1];
@@ -112,6 +112,7 @@ function makeSchedule()
 			   			 	days.push('MO');
 			   			 	day_count.push(1);
 			   			 }
+			   			 
 			   			 if(temp_days.search('T') != -1)
 			   			 {
 			   			 	if(temp_days[temp_days.search('T')+1] != 'h')
@@ -120,16 +121,19 @@ function makeSchedule()
 			   			 		day_count.push(2);
 			   			 	}
 			   			 }
+			   			 
 			   			 if(temp_days.search('W') != -1)
 			   			 {
 			   			 	days.push('WE');
 			   			 	day_count.push(3);
 			   			 }
+			   			 
 			   			 if(temp_days.search('Th') != -1)
 			   			 {
 			   			 	days.push('TH');
 			   			 	day_count.push(4);
 			   			 }
+			   			 
 			   			 if(temp_days.search('F') != -1)
 			   			 {
 			   			 	days.push('FR');
@@ -148,7 +152,7 @@ function makeSchedule()
 						current_date.setFullYear(current_date.getFullYear(),(parseFloat(start_date.split('/')[0])-1).toString(),start_date.split('/')[1]);
 						num = current_date.getDay();
 				
-				//start here
+					//start here
 					if(day_count[0] == num)
 					{}
 					else if(day_count[0] < num)
@@ -171,11 +175,13 @@ function makeSchedule()
 					{
 						
 						temp_start_time = start_time.split(':');
+						
 						if(temp_start_time[0] != '12')
 						{
 							shour = (parseFloat(temp_start_time[0])+12).toString();	
 						}
-						else{
+						else
+						{
 							shour = temp_start_time[0];
 						}
 						smin = temp_start_time[1];
@@ -198,23 +204,28 @@ function makeSchedule()
 					if(end_time[end_time.length-2] == 'P')
 					{
 						temp_end_time = end_time.split(':');
+						
 						if(temp_end_time[0] != '12')
 						{
 							ehour = (parseFloat(temp_end_time[0])+12).toString();
 						}
-						else{
+						else
+						{
 							ehour = temp_end_time[0];
 						}
+						
 						emin = temp_end_time[1];
 						emin = emin.slice(0,emin.length-2);
 					}
 					else
 					{
 						ehour = parseFloat(end_time.split(':')[0]);
+						
 						if (ehour < 10)
 						{
 							ehour = '0'+ehour.toString();
 						}
+						
 						emin = end_time.split(':')[1];
 						emin = emin.slice(0,emin.length-2);
 						
@@ -249,18 +260,22 @@ function makeSchedule()
 			}
 		}
 		result.push('END:VCALENDAR');
+		
 			
 		jQuery.ajax({
-		  type: 'POST',
-		  url: 'http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php',
-		  data: {'data': Base64.encode(result) }
+		  	     type: 'POST',
+			     url: 'http://opendata.uwaterloo.ca/youwaterloo/tools/ScheduleExporter/ScheduleExporter.php',
+			     success: function(data)
+			     {
+				  ifrm = document.createElement("IFRAME");
+				  alert(data); 
+				  ifrm.setAttribute("src", data); 
+				  document.body.appendChild(ifrm); 
+			
+			     },
+	  		     data: {'data': Base64.encode(result.join('DELIMITER')) }
 		 	    });
-				
-	//	var newdiv = document.createElement('div');
-	//	text = result.join("<br/>");
-	//	newdiv.innerHTML = text;
-	//	document.body.innerHTML = "";
-	//	document.body.appendChild(newdiv);
 	
 	}
 }
+makeSchedule();
