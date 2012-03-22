@@ -78,7 +78,7 @@ function makeSchedule()
 		result.push('BEGIN:VCALENDAR');
 		result.push('VERSION:2.0');
 		result.push('PRODID:-//hacksw/handcal//NONSGML v1.0//EN');
-		
+		prompt = null;
 		classes = document.getElementsByClassName('PSGROUPBOXWBO');
 		
 		number_of_classes = classes.length;
@@ -97,6 +97,7 @@ function makeSchedule()
 					{
 			  	  	   current_sub_class = sub_classes[i];
 			  	  	   info = current_sub_class.cells;
+					   section = info[1].children[0].children[0].innerText;
 			  	  	   component = info[2].children[0].children[0].innerText;
 			  	  	   temp_time = info[3].children[0].children[0].innerText.split(' - ');
 			  	  	   start_time = temp_time[0].split(' ')[1];
@@ -104,7 +105,7 @@ function makeSchedule()
 			  	  	   temp_days = temp_time[0].split(' ')[0];
 			  	  	   days = [];
 			  	  	   day_count = [];
-				
+					if(temp_days){
 			   			 if(temp_days.search('M') != -1)
 			   			 {
 			   			 	days.push('MO');
@@ -133,7 +134,11 @@ function makeSchedule()
 			   			 	days.push('FR');
 			   			 	day_count.push(5);
 			   			 }		
-							
+						}
+						else{
+							days.push('MO,TU,WE,TH,FR');
+			   			 	day_count.push(1,2,3,4,5);	
+						}	
 				
 						loc = info[4].children[0].children[0].innerText;
 						instructor = info[5].children[0].children[0].innerText;
@@ -165,7 +170,7 @@ function makeSchedule()
 					}
 					
 					
-					if(start_time[start_time.length-2] == 'P')
+					if(start_time && start_time[start_time.length-2] == 'P')
 					{
 						
 						temp_start_time = start_time.split(':');
@@ -179,7 +184,7 @@ function makeSchedule()
 						smin = temp_start_time[1];
 						smin = smin.slice(0,smin.length-2);
 					}
-					else
+					else if(start_time)
 					{
 						
 						shour = parseFloat(start_time.split(':')[0]);
@@ -189,11 +194,15 @@ function makeSchedule()
 						}
 						smin = start_time.split(':')[1];					
 						smin = smin.slice(0,smin.length-2);
-						
-						
+												
+					}
+					else
+					{
+						shour = "12";
+						smin = "00";
 					}
 					
-					if(end_time[end_time.length-2] == 'P')
+					if(end_time && end_time[end_time.length-2] == 'P')
 					{
 						temp_end_time = end_time.split(':');
 						if(temp_end_time[0] != '12')
@@ -206,7 +215,7 @@ function makeSchedule()
 						emin = temp_end_time[1];
 						emin = emin.slice(0,emin.length-2);
 					}
-					else
+					else if(end_time)
 					{
 						ehour = parseFloat(end_time.split(':')[0]);
 						if (ehour < 10)
@@ -216,6 +225,12 @@ function makeSchedule()
 						emin = end_time.split(':')[1];
 						emin = emin.slice(0,emin.length-2);
 						
+					}
+					else
+					{
+						ehour= "01";
+						emin = "00";
+						prompt = true;
 					}
 					
 					tstart = shour+smin+'00';
@@ -231,18 +246,39 @@ function makeSchedule()
 					dtend = 'DTEND:'+new_start_date + 'T' + tend;
 					rrule = 'RRULE:FREQ=WEEKLY;UNTIL='+ new_end_date.split('/').join('') + 'T' + tend + ';WKST=SU;BYDAY=' + days.join(',')
 					summary = 'SUMMARY:'+class_number + ' ' + component + ' in ' + loc;
-					locs = 'LOCATION:'+ loc;
-					description = 'DESCRIPTION:'+class_number + ': ' + class_name + ' (' + component + ') in ' + loc + ' with ' + instructor;
-							
-					result.push('BEGIN:VEVENT');
-					result.push(dtstart);
-					result.push(dtend);
-					result.push(rrule);
-					result.push(summary);
-					result.push(locs);
-					result.push(description);
-					result.push('END:VEVENT');		
+					temp_loc = loc.split(' ');
+					loc = jQuery.trim(temp_loc[0]) + ' ' + jQuery.trim(temp_loc[temp_loc.length - 1]);
+					locs = 'LOCATION:'+ loc
+					description = 'DESCRIPTION:'+class_number + ': ' + class_name + '-' + section + ' (' + component + ') in ' + loc + ' with ' + instructor;
 					
+					if(prompt)
+					{
+						prompt = null;
+						conflict = class_name + " does not have enough time information. Would you like to set time for this class to 12:00 pm - 01:00 pm. Press OK to accept or Cancel to not export this class."
+						reply = confirm(conflict);
+						if(reply == true)
+						{
+							result.push('BEGIN:VEVENT');
+							result.push(dtstart);
+							result.push(dtend);
+							result.push(rrule);
+							result.push(summary);
+							result.push(locs);
+							result.push(description);
+							result.push('END:VEVENT');
+						}
+					}
+					else
+					{
+						result.push('BEGIN:VEVENT');
+						result.push(dtstart);
+						result.push(dtend);
+						result.push(rrule);
+						result.push(summary);
+						result.push(locs);
+						result.push(description);
+						result.push('END:VEVENT');		
+					}
 				}			
 			}
 		}
